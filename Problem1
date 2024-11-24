@@ -1,0 +1,39 @@
+Problem 1 :- Square Free Number .
+For More Description View Problems file.
+import java.util.*;
+
+class Main {
+
+    // Function to check if a number is square-free
+    static boolean isSquareFree(int x) {            // 2 4 5 10 
+        for (int i = 2; i * i <= x; i++) {
+            if (x % (i * i) == 0) {
+                return false; // If divisible by i^2, it's not square-free
+            }
+        }
+        return true; // Otherwise, it is square-free
+    }
+
+    // Driver code
+    public static void main(String[] args) {
+        
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter the Value of N :");
+        int N = sc.nextInt(); // Change input here for testing
+        
+        
+        Set<Integer> squareFreeDivisors = new HashSet<>();
+
+        // Find divisors of N and check if they are square-free
+        for (int i = 2; i < N; i++) {
+            if (N % i == 0 && isSquareFree(i)) {
+                // Only consider divisors greater than 1
+                    squareFreeDivisors.add(i);
+                
+            }
+        }
+
+        // Output the count of square-free divisors (excluding 1)
+        System.out.println("Number of square-free divisors (excluding 1): "+ squareFreeDivisors.size());
+    }
+}
