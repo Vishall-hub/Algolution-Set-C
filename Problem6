@@ -1,0 +1,62 @@
+Cyclic Palindrome : See Problems for more detail
+
+public class Cyclic {
+    
+    public static boolean isPalindrome(int shift, String s) {
+        int i = 0, j = s.length() - 1;
+        char[] ch = s.toCharArray();
+        
+        // Check if string is already a palindrome.
+        while (i < j) {
+            if (ch[i] != ch[j]) {
+                return false; // If not palindrome, return false
+            }
+            i++;
+            j--;
+        }
+        return true; // If it is a palindrome
+    }
+
+    public static boolean leftCyclic(int shift, String s) {
+        if (shift == 0) {
+            return false; // If no shifts remain, return false
+        }
+
+        // Perform left cyclic shift
+        char[] ch = s.toCharArray();
+        char temp = ch[0];
+        for (int i = 0; i < s.length() - 1; i++) {
+            ch[i] = ch[i + 1];
+        }
+        ch[s.length() - 1] = temp;
+        String shifted = new String(ch);
+
+        // Decrement shift and recursively check palindrome after shifting
+        return isPalindrome(shift - 1, shifted) || leftCyclic(shift - 1, shifted);
+    }
+
+    public static boolean checkShifts(int shift, String s) {
+        if (shift == 0) {
+            return false; // If no shifts are left, return false
+        }
+
+        // Check if orginal string is a palindrome or perform cyclic shifts
+        if (isPalindrome(shift, s)) {
+            return true; // If already a palindrome
+        }
+        return leftCyclic(shift, s); // Otherwise, perform left cyclic shifts
+    }
+
+    public static void main(String[] args) {
+        String s = "ab";
+        int shift = s.length(); // We start checking with full shifts available
+        
+        boolean ans = checkShifts(shift, s);
+
+        if (ans) {
+            System.out.println("True");
+        } else {
+            System.out.println("False");
+        }
+    }
+}
